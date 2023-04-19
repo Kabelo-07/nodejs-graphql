@@ -1,0 +1,42 @@
+import {Friends, Series} from '../db/dbConnector.js';
+
+
+export const resolvers = {
+    Query: {
+        async getAllFriends() {
+            const friends = await Friends.find({});
+            return friends;
+        },
+        async findSeries(id) {
+            const series = await Series.findOne({_id: id});
+            return series;
+        }
+    },
+    Mutation: {
+        async createFriend(root, {input}) {
+            const newFriend = new Friends({
+                firstName: input.firstName,
+                lastName: input.lastName,
+                gender: input.gender,
+                language: input.language,
+                age: input.age,
+                email: input.email,
+                contacts: input.contacts
+            });
+
+            const createdFriend = await newFriend.save();
+        
+            return createdFriend;
+        },
+        async addSeries(root, {series}) {
+            const newSeries = new Series({
+                seriesName: series.seriesName,
+                year: series.year,
+                rating: series.rating
+            });
+
+            const createdSeries = await newSeries.save();
+            return createdSeries;
+        }
+    }
+}

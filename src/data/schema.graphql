@@ -1,0 +1,72 @@
+import {gql} from 'apollo-server-express';
+
+export const typeDefs = gql`
+   type Friend {
+       _id: ID
+       firstName: String!
+       lastName: String!
+       gender: Gender!
+       language: String!
+       age: Int!
+       email: String
+       contacts: [Contact]
+   }
+
+   type Contact {
+       firstName: String
+       lastName: String
+   }
+
+   type Series {
+       _id: ID
+       seriesName: String!
+       year: Int!
+       rating: String
+   }
+
+   enum Rating {
+       ONE
+       TWO
+       THREE
+   }
+
+   enum Gender {
+       MALE
+       FEMALE
+       OTHER
+   }
+
+   input SeriesInput {
+       id: ID
+       seriesName: String
+       year: Int
+       rating: String
+   }
+
+   input FriendInput {
+       id: ID
+       firstName: String!
+       lastName: String!
+       gender: Gender!
+       language: String!
+       age: Int!
+       email: String
+       contacts: [ContactInput] 
+   }
+
+   input ContactInput{
+        firstName: String
+        lastName: String
+    }
+
+    type Query {
+        getAllFriends: [Friend]
+        findSeries(id: ID): Series
+    }
+
+    type Mutation {
+        createFriend(input: FriendInput): Friend
+        addSeries(series: SeriesInput): Series
+    }
+
+`;
